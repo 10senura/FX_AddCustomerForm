@@ -20,11 +20,12 @@ public class DashboardFormController {
     }
 
     public void ViewCustomerOnAction(ActionEvent actionEvent) {
-        Stage stage = new Stage();
+        Stage stage=new Stage();
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/viewcustomer_form_controller.fxml"))));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        stage.show();
     }
 }

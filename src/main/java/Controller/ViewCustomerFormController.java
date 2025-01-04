@@ -13,18 +13,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.net.SocketOption;
 import java.net.URL;
-import java.sql.SQLOutput;
+import java.sql.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ViewCustomerFormController implements Initializable {
 
-    public TableView tblCustomer;
-    public TextField txtId;
-    public TextField txtSalary;
-    public TextField txtAddress;
+    public TableView <Customer> tblCustomer;
     public TextField txtName;
 
     @FXML
@@ -54,8 +50,8 @@ public class ViewCustomerFormController implements Initializable {
         lodetabel();
     }
 
-    private void setTextToValues(Object newValue) {
-        txtId.setText(newValue.getId());
+    private void setTextToValues(Customer newValue) {
+        txtName.setText(newValue.getId());
     }
 
     public void lodetabel(){
@@ -65,11 +61,34 @@ public class ViewCustomerFormController implements Initializable {
             CustomerObservableList.add(obj);
         });
 
-        CustomerObservableList.add(new Customer("C001","senura","anamaduwa",1200.0));
-        CustomerObservableList.add(new Customer("C001","senura","anamaduwa",1200.0));
-        CustomerObservableList.add(new Customer("C001","senura","anamaduwa",1200.0));
-        CustomerObservableList.add(new Customer("C001","senura","anamaduwa",1200.0));
         tblCustomer.setItems(CustomerObservableList);
+
+        try {
+            String sql="select * from customer";
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
+            PreparedStatement PSVM = connection.prepareStatement(sql);
+            ResultSet resultSet = PSVM.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("id"));
+                System.out.println(resultSet.getString("name"));
+                System.out.println(resultSet.getString("address"));
+                System.out.println(resultSet.getString("salary"));
+
+                Customer customer = new Customer(
+                        resultSet.getString("Id"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Address"),
+                        resultSet.getDouble("Salary")
+                );
+                System.out.println(customer);
+                CustomerObservableList.add(customer);
+            }
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+
+        }
     }
 
     public void btnRelodeOnAction(ActionEvent actionEvent) {
