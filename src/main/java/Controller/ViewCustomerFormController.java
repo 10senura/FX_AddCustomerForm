@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.SortEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -22,6 +22,9 @@ public class ViewCustomerFormController implements Initializable {
 
     public TableView <Customer> tblCustomer;
     public TextField txtName;
+    public TextField txtId;
+    public TextField txtAddress;
+    public TextField txtSalary;
 
     @FXML
     private TableColumn clmAddress;
@@ -51,7 +54,11 @@ public class ViewCustomerFormController implements Initializable {
     }
 
     private void setTextToValues(Customer newValue) {
-        txtName.setText(newValue.getId());
+
+        txtId.setText(newValue.getId());
+        txtName.setText(newValue.getName());
+        txtAddress.setText(newValue.getAddress());
+        txtSalary.setText(String.valueOf(newValue.getSalary()));
     }
 
     public void lodetabel(){
@@ -95,4 +102,36 @@ public class ViewCustomerFormController implements Initializable {
         lodetabel();
     }
 
+    public void btnAddCustomerOnAction(ActionEvent actionEvent) {
+
+        Customer customer = new Customer(
+                txtId.getText(),
+                txtName.getText(),
+                txtAddress.getText(),
+                Double.parseDouble(txtSalary.getText())
+
+        );
+        try {
+            String sql="INSERT INTO customer values (?,?,?,?)";
+            Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234" );
+            PreparedStatement pstm= connection.prepareStatement(sql);
+            pstm.setObject(1,customer.getId());
+            pstm.setObject(2,customer.getName());
+            pstm.setObject(3,customer.getAddress());
+            pstm.setDouble(4,customer.getSalary());
+
+            boolean b = pstm.executeUpdate()>0;
+            System.out.println(b);
+
+            if (b){
+                new Alert(Alert.AlertType.INFORMATION," Added successfully!").show();
+            }
+
+            lodetabel();
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+        }
+    }
 }
