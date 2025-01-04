@@ -63,17 +63,12 @@ public class ViewCustomerFormController implements Initializable {
 
     public void lodetabel(){
         ObservableList<Customer> CustomerObservableList = FXCollections.observableArrayList();
-        List<Customer> DBList = DBConnection.getInstance().getConnection();
-        DBList.forEach(obj->{
-            CustomerObservableList.add(obj);
-        });
-
         tblCustomer.setItems(CustomerObservableList);
 
         try {
             String sql="select * from customer";
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234");
+            Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement PSVM = connection.prepareStatement(sql);
             ResultSet resultSet = PSVM.executeQuery();
             while (resultSet.next()){
@@ -113,7 +108,7 @@ public class ViewCustomerFormController implements Initializable {
         );
         try {
             String sql="INSERT INTO customer values (?,?,?,?)";
-            Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234" );
+            Connection connection=DBConnection.getInstance().getConnection();
             PreparedStatement pstm= connection.prepareStatement(sql);
             pstm.setObject(1,customer.getId());
             pstm.setObject(2,customer.getName());
@@ -131,6 +126,21 @@ public class ViewCustomerFormController implements Initializable {
 
         } catch (SQLException e) {
 
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void btnDeleteCustomerOnAction(ActionEvent actionEvent) {
+        String sql="DELETE FROM customer WHERE id='"+txtId.getText()+"'";
+        try {
+            Connection connection=DBConnection.getInstance().getConnection();
+            boolean isDeleted = connection.createStatement().executeUpdate(sql)>0;
+            if(isDeleted){
+                new Alert(Alert.AlertType.INFORMATION,"Customer Deleted !!!").show();
+            }
+            lodetabel();
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

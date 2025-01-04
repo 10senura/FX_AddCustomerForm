@@ -2,6 +2,9 @@ package db;
 
 import Model.Customer;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,17 +12,18 @@ public class DBConnection {
 
     private static DBConnection instance;
 
-    private List<Customer> CustumerList;
+    private Connection CustumerList;
 
-    private DBConnection(){
-        this.CustumerList= new ArrayList<>();
+    private DBConnection() throws SQLException {
+
+        this.CustumerList= DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","1234" );
     }
 
-   public List<Customer> getConnection(){
+   public Connection getConnection(){
         return CustumerList;
    }
 
-    public static DBConnection getInstance(){
+    public static DBConnection getInstance() throws SQLException {
         if (instance==null){
             return instance= new DBConnection();
         }

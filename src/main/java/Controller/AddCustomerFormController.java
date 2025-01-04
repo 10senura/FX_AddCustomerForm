@@ -42,16 +42,6 @@ public class AddCustomerFormController {
     @FXML
     void btnAddCustomeronAction(ActionEvent event) {
 
-            String Id = txtId.getText();
-            String Name=txtName.getText();
-            String Address=txtAddress.getText();
-            Double Salary = Double.parseDouble(txtSalary.getText());
-
-        Customer customer = new Customer(Id, Name, Address, Salary);
-
-        List<Customer> CustomerList = DBConnection.getInstance().getConnection();
-        CustomerList.add(customer);
-        clearTxtfield();
     }
 
     public void btnDeleteCustomeronAction(ActionEvent actionEvent) {
