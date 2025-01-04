@@ -2,19 +2,26 @@ package Controller;
 
 import Model.Customer;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import db.DBConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class AddCustomerFormController {
+public class AddCustomerFormController implements Initializable {
 
+    public JFXComboBox cmbTitle;
     @FXML
     private JFXButton btnAddCustomer;
 
@@ -73,5 +80,23 @@ public class AddCustomerFormController {
         txtName.setText(null);
         txtAddress.setText(null);
         txtSalary.setText(null);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<String> Title = FXCollections.observableArrayList();
+        Title.add("MR");
+        Title.add("MISS");
+        cmbTitle.setItems(Title);
+
+    }
+
+    public void ViewTabelOnAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/viewcustomer_form_controller.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

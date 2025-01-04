@@ -10,15 +10,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.net.SocketOption;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ViewCustomerFormController implements Initializable {
 
     public TableView tblCustomer;
+    public TextField txtId;
+    public TextField txtSalary;
+    public TextField txtAddress;
+    public TextField txtName;
 
     @FXML
     private TableColumn clmAddress;
@@ -34,12 +41,21 @@ public class ViewCustomerFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        tblCustomer.getSelectionModel().selectedItemProperty().addListener((((observableValue, o, newValue) ->{
+            setTextToValues(newValue);
+        })));
+
         clmId.setCellValueFactory(new PropertyValueFactory<>("Id"));
         clmName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         clmAddress.setCellValueFactory(new PropertyValueFactory<>("Address"));
         clmSalary.setCellValueFactory(new PropertyValueFactory<>("Salary"));
 
         lodetabel();
+    }
+
+    private void setTextToValues(Object newValue) {
+        txtId.setText(newValue.getId());
     }
 
     public void lodetabel(){
