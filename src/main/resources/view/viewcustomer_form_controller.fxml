@@ -34,12 +34,12 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="363.0" layoutY="109.0" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #44bd32;" text="UpdateCustomer" textFill="WHITE">
+      <JFXButton layoutX="363.0" layoutY="109.0" onAction="#btnUpdateCustomerOnAction" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #44bd32;" text="UpdateCustomer" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="363.0" layoutY="143.0" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #8c7ae6;" text="Search Customer" textFill="WHITE">
+      <JFXButton layoutX="363.0" layoutY="143.0" onAction="#btnSearchCustomerOnAction" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #8c7ae6;" text="Search Customer" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

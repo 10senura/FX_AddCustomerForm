@@ -38,6 +38,8 @@ public class ViewCustomerFormController implements Initializable {
     @FXML
     private TableColumn clmName;
 
+    CustomerService Service= new CustomerController();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -62,35 +64,8 @@ public class ViewCustomerFormController implements Initializable {
     }
 
     public void lodetabel(){
-        ObservableList<Customer> CustomerObservableList = FXCollections.observableArrayList();
+        ObservableList<Customer> CustomerObservableList =Service.getAll();
         tblCustomer.setItems(CustomerObservableList);
-
-        try {
-            String sql="select * from customer";
-
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement PSVM = connection.prepareStatement(sql);
-            ResultSet resultSet = PSVM.executeQuery();
-            while (resultSet.next()){
-                System.out.println(resultSet.getString("id"));
-                System.out.println(resultSet.getString("name"));
-                System.out.println(resultSet.getString("address"));
-                System.out.println(resultSet.getString("salary"));
-
-                Customer customer = new Customer(
-                        resultSet.getString("Id"),
-                        resultSet.getString("Name"),
-                        resultSet.getString("Address"),
-                        resultSet.getDouble("Salary")
-                );
-                System.out.println(customer);
-                CustomerObservableList.add(customer);
-            }
-        } catch (SQLException e) {
-
-            throw new RuntimeException(e);
-
-        }
     }
 
     public void btnRelodeOnAction(ActionEvent actionEvent) {
@@ -104,44 +79,43 @@ public class ViewCustomerFormController implements Initializable {
                 txtName.getText(),
                 txtAddress.getText(),
                 Double.parseDouble(txtSalary.getText())
-
         );
-        try {
-            String sql="INSERT INTO customer values (?,?,?,?)";
-            Connection connection=DBConnection.getInstance().getConnection();
-            PreparedStatement pstm= connection.prepareStatement(sql);
-            pstm.setObject(1,customer.getId());
-            pstm.setObject(2,customer.getName());
-            pstm.setObject(3,customer.getAddress());
-            pstm.setDouble(4,customer.getSalary());
 
-            boolean b = pstm.executeUpdate()>0;
-            System.out.println(b);
-
-            if (b){
-                new Alert(Alert.AlertType.INFORMATION," Added successfully!").show();
-            }
-
+        if(Service.AddCustomer(customer)){
+            new Alert(Alert.AlertType.INFORMATION,"Added Successfully!");
             lodetabel();
-
-        } catch (SQLException e) {
-
-            throw new RuntimeException(e);
+        }else{
+            new Alert(Alert.AlertType.ERROR,"Added Not Successfully ?");
         }
     }
 
     public void btnDeleteCustomerOnAction(ActionEvent actionEvent) {
-        String sql="DELETE FROM customer WHERE id='"+txtId.getText()+"'";
-        try {
-            Connection connection=DBConnection.getInstance().getConnection();
-            boolean isDeleted = connection.createStatement().executeUpdate(sql)>0;
-            if(isDeleted){
-                new Alert(Alert.AlertType.INFORMATION,"Customer Deleted !!!").show();
+            if(Service.DeleteCustomer(txtId.getText())){
+                new Alert(Alert.AlertType.INFORMATION,"Customer Deleted !").show();
+                lodetabel();
+            }else{
+                new Alert(Alert.AlertType.ERROR,"Customer Not Deleted !").show();
+        }
+    }
+
+    public void btnSearchCustomerOnAction(ActionEvent actionEvent) {
+        Customer customer=Service.SearchCustomer(txtId.getText());
+        setTextToValues(customer);
+    }
+
+    public void btnUpdateCustomerOnAction(ActionEvent actionEvent){
+        Customer customer = new Customer(
+                txtId.getText(),
+                txtName.getText(),
+                txtAddress.getText(),
+                Double.parseDouble(txtSalary.getText())
+        );
+            if (Service.UpdateCustomer(customer)){
+                new Alert(Alert.AlertType.INFORMATION,"Update Successfully !");
+            }else{
+                new Alert(Alert.AlertType.ERROR,"Update NOT Successfully !");
+
             }
             lodetabel();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
