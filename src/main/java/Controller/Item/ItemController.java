@@ -1,6 +1,5 @@
 package Controller.Item;
 
-import Model.Customer;
 import Model.Item;
 import db.DBConnection;
 import javafx.collections.FXCollections;
@@ -15,7 +14,7 @@ import java.sql.SQLException;
 public class ItemController implements ItemService{
 
     @Override
-    public boolean AddCustomer(Item item) {
+    public boolean AddItem(Item item) {
         try {
             String sql="INSERT INTO item values (?,?,?,?)";
             Connection connection= DBConnection.getInstance().getConnection();
@@ -32,7 +31,7 @@ public class ItemController implements ItemService{
     }
 
     @Override
-    public boolean UpdateCustomer(Item item) {
+    public boolean UpdateItem(Item item) {
         String sql="UPDATE item SET description=?,unitPrice=?,qtyOnHand=? WHERE code=?";
         try {
             Connection connection = DBConnection.getInstance().getConnection();
@@ -49,7 +48,7 @@ public class ItemController implements ItemService{
     }
 
     @Override
-    public boolean DeleteCustomer(String code) {
+    public boolean DeleteItem(String code) {
         String sql="DELETE FROM item WHERE code='"+code+"'";
         try {
             Connection connection=DBConnection.getInstance().getConnection();
@@ -61,7 +60,7 @@ public class ItemController implements ItemService{
     }
 
     @Override
-    public Item SearchCustomer(String description) {
+    public Item SearchItem(String description) {
         String sql="SELECT * FROM item WHERE id='"+description+"'";
         try {
             Connection connection = DBConnection.getInstance().getConnection();

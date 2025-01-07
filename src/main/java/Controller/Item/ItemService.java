@@ -6,13 +6,13 @@ import javafx.collections.ObservableList;
 
 public interface ItemService {
 
-    boolean AddCustomer(Item item);
+    boolean AddItem(Item item);
 
-    boolean UpdateCustomer(Item item);
+    boolean UpdateItem(Item item);
 
-    boolean DeleteCustomer(String code);
+    boolean DeleteItem(String code);
 
-    Item SearchCustomer(String description);
+    Item SearchItem(String code);
 
     ObservableList<Item> getAll();
 
