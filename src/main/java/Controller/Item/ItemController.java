@@ -22,7 +22,7 @@ public class ItemController implements ItemService{
             pstm.setObject(1,item.getCode());
             pstm.setObject(2,item.getDescription());
             pstm.setObject(3,item.getPrice());
-            pstm.setDouble(4,item.getQtyOnHand());
+            pstm.setObject(4,item.getQtyOnHand());
             return pstm.executeUpdate()>0;
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,"ERROR"+e.getMessage()).show();
@@ -35,12 +35,13 @@ public class ItemController implements ItemService{
         String sql="UPDATE item SET description=?,unitPrice=?,qtyOnHand=? WHERE code=?";
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setObject(1,item.getCode());
-            pstm.setObject(2,item.getDescription());
-            pstm.setObject(3,item.getPrice());
-            pstm.setDouble(4,item.getQtyOnHand());
-            return pstm.executeUpdate()> 0;
+            PreparedStatement psTm = connection.prepareStatement(sql);
+            psTm.setString(1,item.getDescription());
+            psTm.setDouble(2,item.getPrice());
+            psTm.setInt(3,item.getQtyOnHand());
+            psTm.setString(4,item.getCode());
+
+            return psTm.executeUpdate()> 0;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,18 +61,18 @@ public class ItemController implements ItemService{
     }
 
     @Override
-    public Item SearchItem(String description) {
-        String sql="SELECT * FROM item WHERE id='"+description+"'";
+    public Item SearchItem(String code) {
+        String sql="SELECT * FROM item WHERE code='"+code+"'";
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement pstm = connection.prepareStatement(sql);
-            ResultSet resultSet = pstm.executeQuery();
+            PreparedStatement psTm = connection.prepareStatement(sql);
+            ResultSet resultSet = psTm.executeQuery();
             while (resultSet.next()){
                 return  new Item(
                         resultSet.getString(1),
                         resultSet.getString(2),
                         resultSet.getDouble(3),
-                        resultSet.getInt(4)
+                        resultSet.getInt( 4)
                 );
             }
         } catch (SQLException e) {
@@ -87,17 +88,17 @@ public class ItemController implements ItemService{
             String sql="select * from item";
 
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement PSVM = connection.prepareStatement(sql);
-            ResultSet resultSet = PSVM.executeQuery();
+            PreparedStatement psTm = connection.prepareStatement(sql);
+            ResultSet resultSet = psTm.executeQuery();
             while (resultSet.next()){
                 System.out.println(resultSet.getString("code"));
                 System.out.println(resultSet.getString("description"));
-                System.out.println(resultSet.getString("unitPrice"));
+                System.out.println(resultSet.getString("qtyOnHand"));
                 System.out.println(resultSet.getString("qtyOnHand"));
 
                 Item item = new Item(
-                        resultSet.getString("code"),
-                        resultSet.getString("description"),
+                        resultSet.getString("Code"),
+                        resultSet.getString("Description"),
                         resultSet.getDouble("unitPrice"),
                         resultSet.getInt("qtyOnHand")
                 );

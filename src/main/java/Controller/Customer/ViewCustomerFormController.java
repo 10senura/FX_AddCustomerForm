@@ -1,6 +1,7 @@
 package Controller.Customer;
 
 import Model.Customer;
+import Model.Item;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,9 +65,6 @@ public class ViewCustomerFormController implements Initializable {
         tblCustomer.setItems(CustomerObservableList);
     }
 
-    public void btnRelodeOnAction(ActionEvent actionEvent) {
-        lodetabel();
-    }
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
 

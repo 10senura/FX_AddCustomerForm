@@ -1,8 +1,5 @@
 package Controller.Item;
 
-import Controller.Customer.CustomerController;
-import Controller.Customer.CustomerService;
-import Model.Customer;
 import Model.Item;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,13 +22,13 @@ public class ItemFormController implements Initializable {
     private TableColumn  clmCode;
 
     @FXML
-    private TableColumn<?, ?> clmDescription;
+    private TableColumn clmDescription;
 
     @FXML
-    private TableColumn<?, ?> clmQtyOnHand;
+    private TableColumn clmQtyOnHand;
 
     @FXML
-    private TableColumn<?, ?> clmUnitPrice;
+    private TableColumn clmUnitPrice;
 
     @FXML
     private TableView<Item> tblItem;
@@ -90,7 +87,6 @@ public class ItemFormController implements Initializable {
                 txtDescription.getText(),
                 Double.parseDouble(txtPrice.getText()),
                 Integer.parseInt(txtQty.getText())
-
         );
         if (Service.UpdateItem(item)){
             new Alert(Alert.AlertType.INFORMATION,"Update Successfully !");
@@ -105,12 +101,14 @@ public class ItemFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         tblItem.getSelectionModel().selectedItemProperty().addListener((((observableValue, oldValue, newValue) ->{
-            setTextToValues(newValue);
+           if (newValue!=null){
+               setTextToValues(newValue);
+           }
         })));
 
         clmCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         clmDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        clmUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        clmUnitPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         clmQtyOnHand.setCellValueFactory(new PropertyValueFactory<>("qtyOnHand"));
         lodetabel();
     }
@@ -123,8 +121,8 @@ public class ItemFormController implements Initializable {
     }
 
     public void lodetabel(){
-        ObservableList<Item> CustomerObservableList =Service.getAll();
-        tblItem.setItems(CustomerObservableList);
+        ObservableList<Item> ItemObservableList =Service.getAll();
+        tblItem.setItems(ItemObservableList);
     }
 
 }
