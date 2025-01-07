@@ -1,8 +1,6 @@
-package Controller;
+package Controller.Customer;
 
 import Model.Customer;
-import db.DBConnection;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.*;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ViewCustomerFormController implements Initializable {

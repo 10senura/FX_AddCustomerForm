@@ -9,7 +9,7 @@ public class Starter extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/dashboard_form_controller.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("view/view_item_form.fxml"))));
         stage.show();
     }
 }

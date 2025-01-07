@@ -12,7 +12,7 @@ public class DashboardFormController {
     public void AddCustomerOnAction(ActionEvent actionEvent) {
         Stage stage=new Stage();
         try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/addcustomer_form_controller.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("view/viewcustomer_form_controller.fxml"))));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -22,7 +22,7 @@ public class DashboardFormController {
     public void ViewCustomerOnAction(ActionEvent actionEvent) {
         Stage stage=new Stage();
         try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/viewcustomer_form_controller.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("view/view_item_form.fxml"))));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

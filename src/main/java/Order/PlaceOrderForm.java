@@ -1,2 +1,4 @@
-package Order;public class PlaceOrderForm {
+package Order;
+
+public class PlaceOrderForm {
 }

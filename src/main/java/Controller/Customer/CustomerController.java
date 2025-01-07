@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Customer;
 
 import Model.Customer;
 import db.DBConnection;
@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CustomerController implements CustomerService{
+public class CustomerController implements CustomerService {
 
     @Override
     public boolean AddCustomer(Customer customer) {
